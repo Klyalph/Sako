@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import List
+
 
 class UsersCollection:
 
@@ -16,3 +18,8 @@ class UsersCollection:
     @classmethod
     def get_user(cls, user_id: str) -> User:
         return cls._users[str(user_id)]
+
+    @classmethod
+    def get_users(cls):
+        return cls._users
+

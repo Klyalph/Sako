@@ -4,3 +4,4 @@ svglib>=1.2.1
 pycairo>=1.21.0
 nextcord>=2.0.0
 Pillow>=7.1.1
+pymongo>=4.1.1

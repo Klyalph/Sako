@@ -39,3 +39,7 @@ class GamesCollection:
             if game.user1_id.id == user_id or game.user2_id.id == user_id:
                 games.append(game)
         return games
+
+    @classmethod
+    def get_games(cls):
+        return cls._games

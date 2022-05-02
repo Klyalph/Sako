@@ -13,7 +13,7 @@ INITIAL_EXTENSIONS = [
 
 
 class Bot(commands.Bot):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, mongodb_token: str = "", **kwargs):
         intents = nextcord.Intents.all()
         super().__init__(
             command_prefix="?", intents=intents, help_command=None
@@ -23,6 +23,12 @@ class Bot(commands.Bot):
                 self.load_extension(extension)
             except Exception as e:
                 print(f"Error loading extension {extension}")
+
+        if mongodb_token:
+            self.mongodb_token = mongodb_token
+        else:
+            self.mongodb_token = None 
+
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name}")
