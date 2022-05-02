@@ -55,9 +55,19 @@ class CreateChallenge(commands.Cog):
         contender_user = UsersCollection.get_user(con.id)
         challenger_user.pending_command = str(ctx.message.id)
 
+        if (
+            len(challenger_user.ongoing_games) >= 10
+            or len(contender_user.ongoing_games) >= 10
+        ):
+            await ctx.send(
+                f"{con.mention} You Have Reached The Maximum Number Of Ongoing Games!"
+            )
+            return
+
         challenge_embed = self._create_challenge_embed(
             challenger_user, contender_user, ctx, con
         )
+
         view = Choice(con)
         msg = await ctx.send(embed=challenge_embed, view=view)
         await view.wait()

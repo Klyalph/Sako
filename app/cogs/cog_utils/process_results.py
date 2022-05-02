@@ -5,6 +5,42 @@ from ...objects import Game, GamesCollection, User, UsersCollection
 from ...utils.emojis import EMOJI
 
 
+async def process_resignation(self_, ctx, game: Game, msg, board: chess.Board):
+    winner_profile, loser_profile = game.profile_of_winner_and_loser(board)
+
+    winner_profile.won_game(str(game.id))
+    loser_profile.lost_game(str(game.id))
+    GamesCollection.delete_game(str(game.id))
+
+    embed = _resign_embed(self_, winner_profile, loser_profile)
+
+    await ctx.send(embed=embed)
+
+
+def _resign_embed(self_, winner_profile, loser_profile):
+    winner_disc_profile = self_.client.get_user(int(winner_profile.id))
+    loser_disc_profile = self_.client.get_user(int(loser_profile.id))
+
+    return (
+        nextcord.Embed(
+            title="Game Results",
+            description=f"{winner_disc_profile.name} Won Against "
+            f"{loser_disc_profile.name} Through Resignation",
+            color=nextcord.Color.from_rgb(0, 0, 0),
+        )
+        .add_field(
+            name=f"{EMOJI['trophy']} {winner_disc_profile.name}",
+            value=f"{EMOJI['chart']} New Elo: {winner_profile.elo}",
+            inline=True,
+        )
+        .add_field(
+            name=f"{EMOJI['anger']} {loser_disc_profile.name}",
+            value=f"{EMOJI['down_chart']} New Elo: {loser_profile.elo}",
+            inline=True,
+        )
+    )
+
+
 async def process_win(self_, ctx, game: Game, msg, board: chess.Board):
     winner_profile, loser_profile = game.profile_of_winner_and_loser(board)
 

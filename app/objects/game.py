@@ -89,3 +89,7 @@ class Game:
             return self.user2_id, self.user1_id
         else:
             return self.user1_id, self.user2_id
+
+        #     return self.user2_id, self.user1_id
+        # else:
+        #     return self.user1_id, self.user2_id

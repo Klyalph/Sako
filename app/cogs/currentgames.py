@@ -1,15 +1,12 @@
 from __future__ import annotations
 
 import asyncio
-import time
-from dataclasses import asdict
-from typing import List, Optional
 
 import chess
 import nextcord
 from nextcord.ext import commands
 
-from ..chessboards import ChessBoards
+from typing import List
 from ..objects import Game, GamesCollection, UsersCollection
 from ..utils.emojis import EMOJI
 from .cog_utils.check import check_user
@@ -63,7 +60,6 @@ class ListMoves(commands.Cog):
 
     @commands.command()
     async def ls(self, ctx):
-        # Check if the game is outdated
         await check_user(ctx.author)
         games = [
             game
@@ -132,7 +128,6 @@ class ListMoves(commands.Cog):
         elif (
             board.is_stalemate()
             or board.is_insufficient_material()
-            or board.is_repetition(count=3)
         ):
             await process_draw(self, ctx, game, msg, board)
             return

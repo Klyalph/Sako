@@ -5,13 +5,17 @@ import nextcord
 from app.objects.gamescollection import GamesCollection
 from nextcord.ext import commands
 
-from ..chessboards import ChessBoards
 from ..objects import User, UsersCollection
 from .cog_utils.check import check_user
 from .cog_utils.move_check import create_move_check
 from .cog_utils.parse import parse_user
-from .cog_utils.process_results import process_draw, process_win
+from .cog_utils.process_results import (
+    process_draw,
+    process_win,
+    process_resignation,
+)
 from .cog_utils.upload_board import update_board, upload_board
+from ..createboard import create_board
 
 
 class MakeMove(commands.Cog):
@@ -57,6 +61,10 @@ class MakeMove(commands.Cog):
             return
 
         if user.pending_command != str(ctx.message.id):
+            return
+
+        if move.content == "resign":
+            await process_resignation(self, ctx, game, msg, board)
             return
 
         board.push_san(move.content)
