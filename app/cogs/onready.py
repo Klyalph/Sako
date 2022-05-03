@@ -6,6 +6,7 @@ from nextcord.ext import commands
 
 from ..createboard import create_board
 from ..db import load_data, save_data
+import asyncio
 
 
 class OnReady(commands.Cog):
@@ -20,7 +21,7 @@ class OnReady(commands.Cog):
             while True:
                 save_data(self.client.mongodb_token)
                 print(f"Saved {datetime.datetime.now()}") 
-                time.sleep(30)
+                await asyncio.sleep(20)
 
     @commands.command()
     async def test(self, ctx):

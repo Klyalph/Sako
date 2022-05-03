@@ -23,7 +23,6 @@ class User:
         UsersCollection.add_user(self)
 
     def compute_win_precentage(self) -> float:
-        # this might not work
         try:
             rate = self.wins / (self.wins + self.losses + self.stalemates)
             return f"{round(rate, 2) * 100:.2f}"
