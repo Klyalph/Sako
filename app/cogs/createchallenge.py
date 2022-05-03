@@ -142,7 +142,7 @@ class CreateChallenge(commands.Cog):
             )
             .add_field(
                 name=f"{EMOJI['black_flag']} {ctx.author.name} "
-                f"({challenger_user.compute_win_precentage()}% Winrate)",
+                f"({challenger_user.compute_win_percentage()}% Winrate)",
                 value=f"{EMOJI['chart']} {challenger_user.elo} Elo"
                 f"\n{EMOJI['trophy']} {challenger_user.wins} Wins "
                 f"\n{EMOJI['anger']} {challenger_user.losses} Losses"
@@ -152,7 +152,7 @@ class CreateChallenge(commands.Cog):
             )
             .add_field(
                 name=f"{EMOJI['white_flag']} {contender.name} "
-                f"({contender_user.compute_win_precentage()}% Winrate)",
+                f"({contender_user.compute_win_percentage()}% Winrate)",
                 value=f"{EMOJI['chart']} {contender_user.elo} Elo"
                 f"\n{EMOJI['trophy']} {contender_user.wins} Wins"
                 f"\n{EMOJI['anger']} {contender_user.losses} Losses"

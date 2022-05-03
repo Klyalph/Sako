@@ -35,7 +35,7 @@ class UserProfile(commands.Cog):
                 icon_url=ctx.author.display_avatar,
             )
             .add_field(
-                name=f"{EMOJI['star']} {user.compute_win_precentage()}% winrate"
+                name=f"{EMOJI['star']} {user.compute_win_percentage()}% winrate"
                 f"\n{EMOJI['chart']} {user.elo} elo",
                 value="\u200b",
                 inline=False,

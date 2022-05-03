@@ -22,12 +22,11 @@ class User:
     def __post_init__(self):
         UsersCollection.add_user(self)
 
-    def compute_win_precentage(self) -> float:
-        try:
-            rate = self.wins / (self.wins + self.losses + self.stalemates)
+    def compute_win_percentage(self) -> str:
+        if max(self.wins, self.losses, self.stalemates):
+            rate = self.wins / sum(self.wins, self.losses, self.stalemates)
             return f"{round(rate, 2) * 100:.2f}"
-        except Exception:
-            return "0.00"
+        return "0.00"
 
     # https://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details
     def _expected(self, opponent: User) -> float:
