@@ -1,5 +1,3 @@
-import pymongo
-
 from ..objects import Game, User, UsersCollection, GamesCollection
 
 

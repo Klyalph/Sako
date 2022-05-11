@@ -14,9 +14,6 @@ def save_data(db) -> None:
 
 
 def _save_user_data(db) -> None:
-    """
-    Saves data from the collections into MongoDB.
-    """
     users = db["users"]
     for user_id, user in UsersCollection.get_users().items():
         u = asdict(user).copy()

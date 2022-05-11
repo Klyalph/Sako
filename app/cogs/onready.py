@@ -29,22 +29,6 @@ class OnReady(commands.Cog):
                 print(f"Saved {datetime.datetime.now()}")
                 await asyncio.sleep(30)
 
-    @commands.command()
-    async def test(self, ctx):
-        # file_path = create_board(
-        #     "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
-        #     f"testyblack",
-        # )
-        # file_path_two = create_board(
-        #     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-        #     f"testywhite",
-        # )
-        # file = nextcord.File(file_path)
-        # file2 = nextcord.File(file_path_two)
-        # await ctx.reply(file=file)
-        # await ctx.reply(file=file2)
-        pass
-
 
 def setup(client):
     client.add_cog(OnReady(client))
