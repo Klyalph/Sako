@@ -9,7 +9,8 @@ class Help(commands.Cog):
 
     @commands.command()
     async def help(self, ctx):
-        # TODO: add help command after this is done
+        embed = self.help_embed()
+        await ctx.send(embed=embed)
         pass
 
     @staticmethod

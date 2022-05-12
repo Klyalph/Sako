@@ -11,12 +11,13 @@ from .cog_utils.uploadboard import upload_board
 from ..utils.emojis import EMOJI
 
 
+# Write to just find the first game where the person hasn't made a move.
 class MakeMove(commands.Cog):
     def __init__(self, client):
         self.client = client
 
     @commands.command()
-    async def mm(self, ctx, opponent):
+    async def makemove(self, ctx, opponent):
         if ctx.channel.type == nextcord.ChannelType.private:
             return
 
@@ -50,6 +51,14 @@ class MakeMove(commands.Cog):
         msg = await upload_board(ctx, game, board, user)
 
         await game_continuation(self, ctx, game, msg, board, opponent)
+
+    # @commands.command()
+    # async def makemove(self, ctx, opponent):
+    #     await self.m(ctx, opponent)
+
+    # @commands.command()
+    # async def mm(self, ctx, opponent):
+    #     await self.m(ctx, opponent)
 
     @staticmethod
     def get_game(id: str, opponent):

@@ -48,7 +48,7 @@ class ListMoves(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def ls(self, ctx):
+    async def availablemoves(self, ctx):
         await check_user(ctx.author)
         games = [
             game
@@ -95,6 +95,10 @@ class ListMoves(commands.Cog):
             await wait_for_user_move(self, ctx, game, msg, board)
         else:
             await game_continuation(self, ctx, game, msg, board, opponent)
+
+    @commands.command()
+    async def am(self, ctx):
+        await self.availablemoves(ctx)
 
     def create_game_dropdown_options(self, ctx, games: List[Game]):
         options = []

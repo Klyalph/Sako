@@ -15,7 +15,7 @@ async def game_check(client: nextcord.Client):
             winner_profile.won_game(game.id)
             loser_profile.lost_game(game.id)
             GamesCollection.delete_game(str(game.id))
-            if hasattr(client, 'mongo_client'):
+            if hasattr(client, "mongo_client"):
                 db.delete_game_from_db(client.mongo_client, str(game.id))
 
             winner_disc_profile = client.get_user(int(winner_profile.id))
