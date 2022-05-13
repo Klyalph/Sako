@@ -8,10 +8,8 @@ from nextcord.ext import commands
 
 from ..objects import Game, GamesCollection, UsersCollection
 from .cog_utils.check import check_user
-from .cog_utils.continuation import game_continuation, wait_for_user_move
+from .cog_utils.continuation import game_continuation, wait_for_move
 from .cog_utils.uploadboard import upload_board
-
-# Check if a game is lost by checking if the time is over.
 
 
 class GameDropdown(nextcord.ui.Select):
@@ -92,7 +90,7 @@ class ListMoves(commands.Cog):
         msg = await upload_board(self.client, ctx, game, board, user_profile)
 
         if ctx.channel.type == nextcord.ChannelType.private:
-            await wait_for_user_move(self, ctx, game, msg, board)
+            await wait_for_move(self, ctx, game, msg, board, user_profile)
         else:
             await game_continuation(self, ctx, game, msg, board, opponent)
 

@@ -2,7 +2,7 @@ import nextcord
 from typing import Optional
 
 
-def parse_user(instance, ctx, contender: str) -> Optional[nextcord.Member]:
+def parse_user(instance, ctx, contender: str) -> nextcord.Member | None:
     if user := (ctx.message.mentions or [None])[0]:
         if user.bot:
             return None
