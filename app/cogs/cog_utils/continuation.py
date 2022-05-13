@@ -63,7 +63,7 @@ async def wait_for_opponent_move(
     except Exception:
         pass
 
-    await update_board(board, user_color, game, msg)
+    await update_board(self_.client, board, user_color, game, msg)
 
     if await game_check(self_, ctx, game, msg, board):
         return True
@@ -102,7 +102,7 @@ async def wait_for_user_move(
     except Exception:
         pass
 
-    await update_board(board, user_color, game, msg)
+    await update_board(self_.client, board, user_color, game, msg)
 
     if await game_check(self_, ctx, game, msg, board):
         return True

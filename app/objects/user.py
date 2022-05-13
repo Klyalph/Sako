@@ -26,8 +26,8 @@ class User:
 
     def is_on_cooldown(self) -> float:
         if int(time.time()) - self.last_board_req < 2.5:
-            return round(
-                float(2 - (float(time.time()) - self.last_board_req)), 2
+            return abs(
+                round(float(2 - (float(time.time()) - self.last_board_req)), 2)
             )
         else:
             self.last_board_req = int(time.time())

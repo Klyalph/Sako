@@ -89,7 +89,7 @@ class ListMoves(commands.Cog):
 
         await msg.delete()
         board = chess.Board(fen=game.fen_notation)
-        msg = await upload_board(ctx, game, board, user_profile)
+        msg = await upload_board(self.client, ctx, game, board, user_profile)
 
         if ctx.channel.type == nextcord.ChannelType.private:
             await wait_for_user_move(self, ctx, game, msg, board)

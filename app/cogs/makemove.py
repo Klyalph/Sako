@@ -17,7 +17,7 @@ class MakeMove(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def makemove(self, ctx, opponent):
+    async def makemove(self, ctx, opponent, *args):
         if ctx.channel.type == nextcord.ChannelType.private:
             return
 
@@ -48,7 +48,7 @@ class MakeMove(commands.Cog):
             return
 
         board = chess.Board(fen=game.fen_notation)
-        msg = await upload_board(ctx, game, board, user)
+        msg = await upload_board(self.client, ctx, game, board, user)
 
         await game_continuation(self, ctx, game, msg, board, opponent)
 

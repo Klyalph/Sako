@@ -10,21 +10,28 @@ flags = {
 }
 
 
-async def upload_board(ctx, game: Game, board: chess.Board, user: User):
+async def upload_board(
+    client: nextcord.Client, ctx, game: Game, board: chess.Board, user: User
+):
     board = chess.Board(fen=game.fen_notation)
     path_to_pic = create_board(board.fen(), game.id)
     file = nextcord.File(path_to_pic)
-    msg = await ctx.send(file=file, embed=_board_embed(game, board))
+    msg = await ctx.send(file=file, embed=_board_embed(client, game, board))
     return msg
 
 
 # Add more game information in this embed
 # Calculate the number of whitspaes needed to make this clean.
-def _board_embed(game: Game, board: chess.Board) -> nextcord.Embed:
+def _board_embed(
+    client: nextcord.Client, game: Game, board: chess.Board
+) -> nextcord.Embed:
+    user_disc_one = client.get_user(int(game.user1_id.id))
+    user_disc_two = client.get_user(int(game.user2_id.id))
     v = " " * 51
     return nextcord.Embed(
         title=f"Game {game.id} {v} \u200b"
-        f"\n{game.moves} Move(s) Taken So Far",
+        f"\n{game.moves} Move(s) Taken So Far"
+        f"\n{user_disc_two.name} vs {user_disc_one.name}",
         description="\u200b",
         color=0x2F3136,
     ).add_field(
@@ -34,8 +41,8 @@ def _board_embed(game: Game, board: chess.Board) -> nextcord.Embed:
     )
 
 
-async def update_board(board, user_color, game, msg):
+async def update_board(client: nextcord.Client, board, user_color, game, msg):
     path_to_pic = create_board(board.fen(), game.id)
 
     file = nextcord.File(path_to_pic)
-    await msg.edit(file=file, embed=_board_embed(game, board))
+    await msg.edit(file=file, embed=_board_embed(client, game, board))
