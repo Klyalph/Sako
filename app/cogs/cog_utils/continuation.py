@@ -14,7 +14,6 @@ import nextcord
 
 
 # TODO: add support for draw
-# print a message of sorts if one of the users don't respond
 # Update board command doesn't work for some reason when it is send in available moves in dm
 
 

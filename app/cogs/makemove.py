@@ -17,21 +17,13 @@ class MakeMove(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def makemove(self, ctx, opponent, *args):
+    async def makemove(self, ctx):
         if ctx.channel.type == nextcord.ChannelType.private:
             return
 
-        opponent = parse_user(self, ctx, opponent)
-        if opponent is None:
-            await ctx.send(
-                "Please Enter A Valid Username To Challenge Someone!"
-            )
-            return
-
         await check_user(ctx.author)
-        await check_user(opponent)
 
-        user = UsersCollection.get_user(ctx.author.id)
+        user = UsersCollection.get_user(str(ctx.author.id))
         user.pending_command = str(ctx.message.id)
 
         if time_left := (user.is_on_cooldown()):
@@ -41,7 +33,7 @@ class MakeMove(commands.Cog):
             )
             return
 
-        game = self.get_game(user.id, opponent)
+        game = self.get_game(user.id)
 
         if game is None:
             msg = await ctx.send("You Have No Turns")
@@ -49,28 +41,30 @@ class MakeMove(commands.Cog):
 
         board = chess.Board(fen=game.fen_notation)
         msg = await upload_board(self.client, ctx, game, board, user)
+        opponent_profile = UsersCollection.get_user(
+            game.get_opponent_profile(user.id).id
+        )
 
-        await game_continuation(self, ctx, game, msg, board, opponent)
+        opponent_disc_profile = self.client.get_user(int(opponent_profile.id))
+        await game_continuation(
+            self, ctx, game, msg, board, opponent_disc_profile
+        )
 
-    # @commands.command()
-    # async def makemove(self, ctx, opponent):
-    #     await self.m(ctx, opponent)
+    @commands.command()
+    async def makemove(self, ctx):
+        await self.makemove(ctx)
 
-    # @commands.command()
-    # async def mm(self, ctx, opponent):
-    #     await self.m(ctx, opponent)
+    @commands.command()
+    async def mm(self, ctx):
+        await self.makemove(ctx)
 
     @staticmethod
-    def get_game(id: str, opponent):
+    def get_game(id: str):
         # Fetches the games where it is the user's turn
         games = [
             game
             for game in GamesCollection.get_games_by_user_id(id)
             if game.is_user_turn(id)
-            and (
-                game.user1_id.id == str(opponent.id)
-                or game.user2_id.id == str(opponent.id)
-            )
         ]
         if len(games):
             return games[0]

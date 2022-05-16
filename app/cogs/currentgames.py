@@ -47,7 +47,12 @@ class ListMoves(commands.Cog):
 
     @commands.command()
     async def availablemoves(self, ctx):
+
+        if ctx.channel.type == nextcord.ChannelType.private:
+            return
+
         await check_user(ctx.author)
+
         games = [
             game
             for game in GamesCollection.get_games_by_user_id(
