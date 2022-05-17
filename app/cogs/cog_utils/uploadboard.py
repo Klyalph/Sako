@@ -1,6 +1,7 @@
 import chess
 import nextcord
 import os
+import random
 
 from ...createboard import create_board
 from ...objects import Game, User
@@ -22,8 +23,6 @@ async def upload_board(
     return msg
 
 
-# Add more game information in this embed
-# Calculate the number of whitspaes needed to make this clean. ➣ ➣ ➣
 def _board_embed(
     client: nextcord.Client, game: Game, board: chess.Board
 ) -> nextcord.Embed:
@@ -31,14 +30,20 @@ def _board_embed(
     user_disc_two = client.get_user(int(game.user2_id.id))
     text_len = len(f"Game {game.id} \u200b")
     v = " " * (63 - text_len)
+    example_move = random.choice([str(move) for move in board.legal_moves])
+    person_to_move = (
+        user_disc_one if board.turn is chess.WHITE else user_disc_two
+    )
+
     return nextcord.Embed(
         title=f"Game {game.id} {v} \u200b"
         f"\n{game.moves} Move(s) Taken So Far"
         f"\n{user_disc_two.name} vs {user_disc_one.name}",
-        description="\u200b",
+        description=f"Example Move: {example_move}",
         color=0x2F3136,
     ).add_field(
-        name=f"{flags[board.turn]} To Move" f"\nTime Left: {game.time_left()}",
+        name=f"{flags[board.turn]} {person_to_move.name}'s turn"
+        f"\nTime Left: {game.time_left()}",
         value="\u200b",
         inline=True,
     )

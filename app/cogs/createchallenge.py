@@ -111,7 +111,7 @@ class CreateChallenge(commands.Cog):
                 color=0x66A543,
             )
             .add_field(
-                name=f"Each Player Has 24 Hours To Respond With A Move",
+                name=f"Each Player Has 24 Hours To Make A Move",
                 value="\u200b",
                 inline=False,
             )

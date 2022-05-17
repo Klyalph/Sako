@@ -11,7 +11,6 @@ from .cog_utils.uploadboard import upload_board
 from ..utils.emojis import EMOJI
 
 
-# Write to just find the first game where the person hasn't made a move.
 class MakeMove(commands.Cog):
     def __init__(self, client):
         self.client = client

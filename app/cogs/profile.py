@@ -34,7 +34,7 @@ class UserProfile(commands.Cog):
                 color=0x2F3136,
             )
             .set_author(
-                name=f"{ctx.author.name}'s Sako Profile",
+                name=f"{ctx.author.name}'s Chess Profile",
                 icon_url=ctx.author.display_avatar,
             )
             .add_field(

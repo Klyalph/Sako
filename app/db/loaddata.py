@@ -15,7 +15,6 @@ def _load_user_data(db) -> None:
     for user in users.find():
         u = user.copy()
         del u["_id"]
-        # Check if this works
         del u["ongoing_games"]
         User(**u)
 

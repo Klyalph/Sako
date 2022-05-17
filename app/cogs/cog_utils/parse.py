@@ -10,7 +10,7 @@ def parse_user(instance, ctx, contender: str) -> nextcord.Member | None:
 
     members = []
 
-    if len(ctx.guild.members) > 500:
+    if len(ctx.guild.members) > 200:
         return None
 
     for member in ctx.guild.members:

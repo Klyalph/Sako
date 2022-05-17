@@ -13,7 +13,8 @@ import nextcord
 
 
 # TODO: add support for draw
-# Update board command doesn't work for some reason when it is send in available moves in dm
+# Update board command doesn't work for some reason when
+# it is send in available moves in dm
 
 
 async def game_continuation(

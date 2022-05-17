@@ -19,7 +19,6 @@ class OnReady(commands.Cog):
                 type=nextcord.ActivityType.listening, name=f"?help"
             )
         )
-        # Make this a function
         if hasattr(self.client, "mongo_client"):
             db.load_data(self.client.mongo_client)
             print("DATA LOADED")

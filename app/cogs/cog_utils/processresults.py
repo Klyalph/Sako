@@ -57,7 +57,6 @@ async def process_win(self_, ctx, game: Game, msg, board: chess.Board):
 
     embed = _win_embed(self_, winner_profile, loser_profile)
 
-    # check this
     await msg.edit(embed=embed)
 
     # TODO: add game to list to previous games.
