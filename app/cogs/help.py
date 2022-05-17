@@ -39,7 +39,9 @@ class Help(commands.Cog):
                 inline=False,
             )
             .add_field(
-                name=f"{EMOJI['fire']} `?createchallenge` | `?challenge` | `?ch`",
+                # specify argument
+                name=f"{EMOJI['fire']} `?createchallenge` | `?challenge` | `?ch` "
+                f"\n Argument: `@user` | `user`",
                 value="Challenge a user to a game of chess \n \u200b",
                 inline=False,
             )
