@@ -31,7 +31,6 @@ def _board_embed(
     user_disc_two = client.get_user(int(game.user2_id.id))
     text_len = len(f"Game {game.id} \u200b")
     v = " " * (63 - text_len)
-
     return nextcord.Embed(
         title=f"Game {game.id} {v} \u200b"
         f"\n{game.moves} Move(s) Taken So Far"

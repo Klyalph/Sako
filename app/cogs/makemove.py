@@ -51,10 +51,6 @@ class MakeMove(commands.Cog):
         )
 
     @commands.command()
-    async def makemove(self, ctx):
-        await self.makemove(ctx)
-
-    @commands.command()
     async def mm(self, ctx):
         await self.makemove(ctx)
 

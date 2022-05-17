@@ -103,6 +103,10 @@ class ListMoves(commands.Cog):
     async def am(self, ctx):
         await self.availablemoves(ctx)
 
+    @commands.command()
+    async def moves(self, ctx):
+        await self.availablemoves(ctx)
+
     def create_game_dropdown_options(self, ctx, games: List[Game]):
         options = []
         for game in games:

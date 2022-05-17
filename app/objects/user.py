@@ -24,7 +24,7 @@ class User:
     def __post_init__(self):
         UsersCollection.add_user(self)
 
-    def is_on_cooldown(self) -> float:
+    def is_on_cooldown(self) -> float | bool:
         if int(time.time()) - self.last_board_req < 2.5:
             return abs(
                 round(float(2 - (float(time.time()) - self.last_board_req)), 2)

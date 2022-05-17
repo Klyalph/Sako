@@ -22,6 +22,10 @@ class UserProfile(commands.Cog):
         embed = self._add_current_games_to_embed(ctx, user_profile, embed)
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def p(self, ctx):
+        await self.profile(ctx)
+
     @staticmethod
     def _create_profile_embed(user: User, ctx) -> nextcord.Embed:
         return (

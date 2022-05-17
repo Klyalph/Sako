@@ -34,7 +34,7 @@ class CreateChallenge(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def ch(self, ctx, contender):
+    async def challenge(self, ctx, contender):
         if ctx.channel.type == nextcord.ChannelType.private:
             return
 
@@ -92,6 +92,14 @@ class CreateChallenge(commands.Cog):
         elif not view.response:
             embed = self._create_rejection_embed(ctx, con)
             await msg.edit(embed=embed, view=None)
+
+    @commands.command()
+    async def ch(self, ctx, opponent):
+        await self.challenge(ctx, opponent)
+
+    @commands.command()
+    async def play(self, ctx, opponent):
+        await self.challenge(ctx, opponent)
 
     @staticmethod
     def _create_acceptance_embed(ctx, contender) -> nextcord.Embed:

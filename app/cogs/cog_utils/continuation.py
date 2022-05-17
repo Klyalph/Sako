@@ -3,7 +3,6 @@ from __future__ import annotations
 import asyncio
 
 import chess
-from nextcord.ext import commands
 
 from ...objects import Game, UsersCollection, User
 from .gamecheck import game_check
