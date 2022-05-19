@@ -7,6 +7,7 @@ import time
 
 
 from .userscollection import UsersCollection
+from .previousgame import PreviousGame
 
 
 @dataclass(slots=True)
@@ -18,7 +19,7 @@ class User:
     elo: int = 1500
     last_board_req: int = 0  # epoch time of last request to get a board
     ongoing_games: List[str] = field(default_factory=list)
-    previous_games: List[str] = field(default_factory=list)
+    previous_games: List[PreviousGame] = field(default_factory=list)
     pending_command: str = ""  # Message id of the latest command sent
 
     def __post_init__(self):

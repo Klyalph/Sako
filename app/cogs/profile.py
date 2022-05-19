@@ -1,7 +1,12 @@
 import nextcord
 from nextcord.ext import commands
 
-from ..objects import GamesCollection, User, UsersCollection
+from ..objects import (
+    GamesCollection,
+    User,
+    UsersCollection,
+    PreviousGamesCollection,
+)
 from ..utils.emojis import EMOJI
 from .cog_utils.check import check_user
 
@@ -20,6 +25,7 @@ class UserProfile(commands.Cog):
         user_profile = UsersCollection.get_user(str(ctx.author.id))
         embed = self._create_profile_embed(user_profile, ctx)
         embed = self._add_current_games_to_embed(ctx, user_profile, embed)
+        embed = self._add_previous_games_to_embed(ctx, user_profile, embed)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -79,17 +85,55 @@ class UserProfile(commands.Cog):
             )
 
         return embed.add_field(
-            name=f"{EMOJI['pawn']} Ongoing Games:",
-            value="\n".join(str_games),
+            name=f"{EMOJI['pawn']} Ongoing Games: \n \u200b",
+            value="\n".join(str_games) + "\n \u200b",
             inline=False,
         )
 
     @staticmethod
     def _current_game_string(ctx, user, opponent, opponent_profile, game):
         return (
-            f"{ctx.author.name} "
-            f"vs. {opponent.name} ({opponent_profile.elo}) (id: {game.id})"
+            f"**{ctx.author.name} "
+            f"vs. {opponent.name}** ({opponent_profile.elo}) (id: {game.id})"
         )
+
+    def _add_previous_games_to_embed(
+        self, ctx, user: User, embed: nextcord.Embed
+    ):
+        previous_games = PreviousGamesCollection.get_previous_games(user.id)
+        if not previous_games:
+            return embed
+
+        str_games = []
+
+        for previous_game in previous_games[:10]:
+            opponent_profile = UsersCollection.get_user(
+                previous_game.opponent_id
+            )
+            opponent_disc_profile = self.client.get_user(
+                int(opponent_profile.id)
+            )
+            str_games.append(
+                self._previous_game_string(
+                    ctx, opponent_disc_profile, previous_game
+                )
+            )
+
+        return embed.add_field(
+            name=f"{EMOJI['pawn']} Previous Games: \n \u200b",
+            value="\n".join(str_games) + "\n \u200b",
+            inline=False,
+        )
+
+    @staticmethod
+    def _previous_game_string(ctx, opponent_disc_profile, previous_game):
+        result = [
+            "Lost",
+            "Stalemate",
+            "Won",
+        ][previous_game.result]
+
+        return f"**vs. {opponent_disc_profile.name}:** {result} (game ended {previous_game.time} UTC)"
 
 
 def setup(client):

@@ -1,9 +1,50 @@
 import chess
 import nextcord
 
-from ...objects import Game, GamesCollection
+from ...objects import Game, GamesCollection, PreviousGame
 from ...utils.emojis import EMOJI
 from ... import db
+
+
+def process_previous_game_win_loss(
+    winner_profile, loser_profile, game: Game
+) -> None:
+    winner_profile.previous_games.append(
+        PreviousGame(
+            game_id=game.id,
+            result=2,
+            opponent_id=loser_profile.id,
+            user_id=winner_profile.id,
+        )
+    )
+    loser_profile.previous_games.append(
+        PreviousGame(
+            game_id=game.id,
+            result=0,
+            opponent_id=winner_profile.id,
+            user_id=loser_profile.id,
+        )
+    )
+
+
+def process_previous_game_draw(profile_one, profile_two, game: Game) -> None:
+    profile_one.previous_games.append(
+        PreviousGame(
+            game_id=game.id,
+            result=1,
+            opponent_id=profile_two.id,
+            user_id=profile_one.id,
+        )
+    )
+
+    profile_two.previous_games.append(
+        PreviousGame(
+            game_id=game.id,
+            result=1,
+            opponent_id=profile_one.id,
+            user_id=profile_two.id,
+        )
+    )
 
 
 async def process_resignation(self_, ctx, game: Game, msg, board: chess.Board):
@@ -15,6 +56,8 @@ async def process_resignation(self_, ctx, game: Game, msg, board: chess.Board):
     loser_profile.lost_game(str(game.id))
     GamesCollection.delete_game(str(game.id))
     db.delete_game_from_db(self_.client.mongo_client, str(game.id))
+
+    process_previous_game_win_loss(winner_profile, loser_profile, game)
 
     embed = _resign_embed(self_, winner_profile, loser_profile)
 
@@ -54,6 +97,8 @@ async def process_win(self_, ctx, game: Game, msg, board: chess.Board):
     loser_profile.lost_game(str(game.id))
     GamesCollection.delete_game(str(game.id))
     db.delete_game_from_db(self_.client.mongo_client, str(game.id))
+
+    process_previous_game_win_loss(winner_profile, loser_profile, game)
 
     embed = _win_embed(self_, winner_profile, loser_profile)
 

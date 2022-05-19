@@ -1,4 +1,10 @@
-from ..objects import Game, User, UsersCollection, GamesCollection
+from ..objects import (
+    Game,
+    User,
+    UsersCollection,
+    GamesCollection,
+    PreviousGame,
+)
 
 
 def load_data(db) -> None:
@@ -16,6 +22,9 @@ def _load_user_data(db) -> None:
         u = user.copy()
         del u["_id"]
         del u["ongoing_games"]
+        u["previous_games"] = [
+            PreviousGame(**pg) for pg in u["previous_games"]
+        ]
         User(**u)
 
 
