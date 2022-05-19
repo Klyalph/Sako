@@ -18,7 +18,7 @@ async def process_resignation(self_, ctx, game: Game, msg, board: chess.Board):
 
     embed = _resign_embed(self_, winner_profile, loser_profile)
 
-    await msg.edit(embed=embed)
+    await ctx.send(embed=embed)
 
 
 def _resign_embed(self_, winner_profile, loser_profile):
@@ -57,7 +57,7 @@ async def process_win(self_, ctx, game: Game, msg, board: chess.Board):
 
     embed = _win_embed(self_, winner_profile, loser_profile)
 
-    await msg.edit(embed=embed)
+    await ctx.send(embed=embed)
 
     # TODO: add game to list to previous games.
 

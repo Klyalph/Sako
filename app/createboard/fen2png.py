@@ -64,7 +64,6 @@ class Board:
         return (
             self.is_valid_board(board)
             and self.is_valid_move(move)
-            and self.is_valid_castle(castle)
             and self.is_valid_enpassant(enpassant)
             and self.is_int(half_move)
             and self.is_int(full_move)
@@ -103,19 +102,6 @@ class Board:
         if len(square) > 2:
             return False
         return square[0] in "abcdefgh" and square[1] in "12345678"
-
-    @staticmethod
-    def is_valid_castle(castle):
-        if len(castle) > 4:
-            return False
-        possible = {i: 0 for i in ["K", "Q", "k", "q"]}
-        for letter in castle:
-            if letter not in possible.keys():
-                return False
-            if possible[letter]:
-                return False
-            possible[letter] = 1
-        return True
 
     @staticmethod
     def is_valid_move(move):

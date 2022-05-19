@@ -116,7 +116,7 @@ class CreateChallenge(commands.Cog):
                 inline=False,
             )
             .set_footer(
-                text=f"Write ?mm {ctx.author.name} To Make The First Move!",
+                text=f"Write ?mm To Make The First Move!",
                 icon_url=contender.display_avatar,
             )
         )

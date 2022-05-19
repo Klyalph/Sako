@@ -23,7 +23,8 @@ class Bot(commands.Bot):
         for extension in COGS:
             try:
                 self.load_extension(extension)
-            except Exception:
+            except Exception as e:
+                print(e)
                 print(f"Error loading extension {extension}")
 
         if mongodb_token:

@@ -62,7 +62,7 @@ class MakeMove(commands.Cog):
             if game.is_user_turn(id)
         ]
         if len(games):
-            return games[0]
+            return games[len(games) - 1]
 
 
 def setup(client):
