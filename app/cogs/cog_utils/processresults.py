@@ -55,7 +55,9 @@ async def process_resignation(self_, ctx, game: Game, msg, board: chess.Board):
     winner_profile.won_game(str(game.id))
     loser_profile.lost_game(str(game.id))
     GamesCollection.delete_game(str(game.id))
-    db.delete_game_from_db(self_.client.mongo_client, str(game.id))
+
+    if hasattr(self_.client, "mongo_client"):
+        db.delete_game_from_db(self_.client.mongo_client, str(game.id))
 
     process_previous_game_win_loss(winner_profile, loser_profile, game)
 
@@ -96,7 +98,9 @@ async def process_win(self_, ctx, game: Game, msg, board: chess.Board):
     winner_profile.won_game(str(game.id))
     loser_profile.lost_game(str(game.id))
     GamesCollection.delete_game(str(game.id))
-    db.delete_game_from_db(self_.client.mongo_client, str(game.id))
+
+    if hasattr(self_.client, "mongo_client"):
+        db.delete_game_from_db(self_.client.mongo_client, str(game.id))
 
     process_previous_game_win_loss(winner_profile, loser_profile, game)
 
@@ -138,7 +142,9 @@ async def process_draw(self_, ctx, game: Game, msg, board: chess.Board):
     profile_one.draw_game(str(game.id))
     profile_two.draw_game(str(game.id))
     GamesCollection.delete_game(str(game.id))
-    db.delete_game_from_db(self_.client.mongo_client, str(game.id))
+
+    if hasattr(self_.client, "mongo_client"):
+        db.delete_game_from_db(self_.client.mongo_client, str(game.id))
 
     embed = _draw_embed(self_, profile_one, profile_two)
     # check this

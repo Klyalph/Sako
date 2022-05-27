@@ -11,6 +11,7 @@ COGS = [
     "app.cogs.currentgames",
     "app.cogs.onready",
     "app.cogs.help",
+    "app.cogs.gamelist",
 ]
 
 
