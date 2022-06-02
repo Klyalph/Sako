@@ -22,6 +22,7 @@ def _load_user_data(db) -> None:
         u = user.copy()
         del u["_id"]
         del u["ongoing_games"]
+        # Previous games are being initialized here
         u["previous_games"] = [
             PreviousGame(**pg) for pg in u["previous_games"]
         ]

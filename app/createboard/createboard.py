@@ -1,8 +1,9 @@
 from .constants import *
 from .fen2png import Board, DrawImage
+from typing import Optional
 
 
-def create_board(fen: str, name) -> str | None:
+def create_board(fen: str, name) -> Optional[str]:
     """Returns the path to the image created by the FEN notation"""
     fen = Board(fen.split())
     if fen.isvalid:

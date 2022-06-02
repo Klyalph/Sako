@@ -55,8 +55,12 @@ class Help(commands.Cog):
                 " where it's your turn to make a move",
                 inline=False,
             )
+            .add_field(
+                name=f"{EMOJI['pawn']} `?gamelist` ",
+                value="View a list of your  ongoing chess games",
+                inline=False,
         )
-
+    )
 
 def setup(client):
     client.add_cog(Help(client))
