@@ -61,6 +61,14 @@ class ConnectFour:
             or self._check_diagonally_right()
         )
 
+    def get_winner_id(self) -> str:
+        assert self.check_if_won()
+        return (
+            self.user1_id 
+            if self.turn == TileStatus.GREEN 
+            else self.user2_id
+        )
+
     def _check_vertically(self) -> bool:
         count = 0
         last_color = self.last_move_color
