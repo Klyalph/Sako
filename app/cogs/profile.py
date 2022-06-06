@@ -100,7 +100,13 @@ class UserProfile(commands.Cog):
     def _add_previous_games_to_embed(
         self, ctx, user: User, embed: nextcord.Embed
     ):
-        previous_games = PreviousGamesCollection.get_previous_games(user.id)
+        try:
+            previous_games = PreviousGamesCollection.get_previous_games(
+                user.id
+            )
+        except KeyError:  # No previous games
+            return embed
+
         if not previous_games:
             return embed
 

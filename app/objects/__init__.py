@@ -4,3 +4,4 @@ from .user import User
 from .userscollection import UsersCollection
 from .previousgame import PreviousGame
 from .previousgamescollection import PreviousGamesCollection
+from .connectfour import ConnectFour

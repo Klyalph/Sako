@@ -59,8 +59,9 @@ class Help(commands.Cog):
                 name=f"{EMOJI['pawn']} `?gamelist` ",
                 value="View a list of your  ongoing chess games",
                 inline=False,
+            )
         )
-    )
+
 
 def setup(client):
     client.add_cog(Help(client))

@@ -12,6 +12,7 @@ COGS = [
     "app.cogs.onready",
     "app.cogs.help",
     "app.cogs.gamelist",
+    "app.cogs.connectfourgame",
 ]
 
 

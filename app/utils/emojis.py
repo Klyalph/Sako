@@ -14,4 +14,7 @@ EMOJI = {
     "checkmark": "<:white_check_mark:963503371753517076>",
     "x": "<:x:963503371753517076>",
     "hourglass": "<:hourglass:973649313018298418>",
+    "red_circle": "<:red_circle:983379285177954304>",
+    "green_circle": "<:green_circle:983379303439937567>",
+    "black_circle": "<:black_circle:983379338361729085>",
 }
