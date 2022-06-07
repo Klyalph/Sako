@@ -61,6 +61,12 @@ class ConnectFour:
             or self._check_diagonally_right()
         )
 
+    def is_draw(self) -> bool:
+        for item in self.board[0]:
+            if item is TileStatus.EMPTY:
+                return False
+        return True
+
     def get_winner_id(self) -> str:
         assert self.check_if_won()
         return (

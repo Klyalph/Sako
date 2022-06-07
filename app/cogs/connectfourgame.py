@@ -13,14 +13,14 @@ from ..utils.emojis import EMOJI
 class ConnectFourChoices(nextcord.ui.View):
     # The user is the person who's turn it is
     def __init__(self, user_id: nextcord.Member):
-        super().__init__(timeout=30)
+        super().__init__(timeout=45)
         self.response = None
         self.user_id = user_id
 
     # MUST be a better way
     @nextcord.ui.button(label="1", style=nextcord.ButtonStyle.primary)
     async def button1(self, button, interaction: Interaction):
-        if interaction.user.id == self.user_id.id:
+        if interaction.user.id == self.user_id:
             self.response = int(button.label)
             self.stop()
 
@@ -60,6 +60,16 @@ class ConnectFourChoices(nextcord.ui.View):
             self.response = int(button.label)
             self.stop()
 
+class DeleteButton(nextcord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=45)
+        self.stop()
+        
+
+    @nextcord.ui.button(label="delete", style=nextcord.ButtonStyle.primary)
+    async def delete(self, button, interaction: Interaction):
+        self.stop()
+
 
 class ConnectFourGame(commands.Cog):
     def __init__(self, client):
@@ -89,7 +99,9 @@ class ConnectFourGame(commands.Cog):
 
         contender_game_profile.pending_command = message.id
         opponent_game_profile.pending_command = message.id
-        # while 1:
+
+
+        # TODO: CEHCK if there is no availble moves
         while not game.check_if_won():
             user_id_turn = int(game.get_id_of_user_turn())
 
@@ -111,15 +123,36 @@ class ConnectFourGame(commands.Cog):
             if view.response is None:
                 return
 
-            game.push_move(view.response - 1)
+            try:
+                game.push_move(view.response - 1)
+            except AttributeError:
+                continue
 
-        await ctx.send(
-            embed=self._results_embed(game, ctx.author, opponent_disc_profile)
+            if game.is_draw():
+                await ctx.send(self._create_draw_embed)
+
+        delete_button = DeleteButton()
+        await message.edit(
+            embed=self._results_embed(game, ctx.author, opponent_disc_profile),
+            view=delete_button
         )
+        await delete_button.wait()
+        try:
+
+            await message.delete()
+        except:
+            pass
 
     @commands.command()
     async def cf(self, ctx, opponent):
         await self.connectfour(ctx, opponent)
+    
+    def _create_draw_embed(self) -> nextcord.Embed: 
+        return nextcord.Embed(
+            title="Draw",
+            description="No one won this game."
+        )
+    
 
     def _create_board_embed(
         self,
@@ -146,16 +179,22 @@ class ConnectFourGame(commands.Cog):
             )
         )
 
-    def _results_embed(self, game, user1_disc, user2_disc):
-        winner_id = game.get_id_of_winner()
+    def draw_embed(self, game: ConnectFour, user1_disc, user2_disc):
+        pass
+
+    def _results_embed(self, game: ConnectFour, user1_disc, user2_disc):
+        winner_id = game.get_winner_id()
         winner_disc_profile = (
             user1_disc
-            if user1_disc.author.id == int(winner_id)
+            if user1_disc.id == int(winner_id)
             else user2_disc
         )
         return nextcord.Embed(
             title=f"Game over: {user1_disc.name} vs {user2_disc.name}",
-            description=f"Winner: {winner_disc_profile.name}",
+            description=game.as_string(),
+        ).add_field(
+            name=f"{winner_disc_profile.name} Won!",
+            value="\u200b",
         )
 
 
