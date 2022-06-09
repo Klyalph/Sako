@@ -29,6 +29,7 @@ async def game_continuation(
 
         if await wait_for_move(self_, ctx, game, msg, board, opponent_user):
             break
+
     await msg.delete()
 
 

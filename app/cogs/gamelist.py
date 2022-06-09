@@ -3,7 +3,7 @@ from nextcord.ext import commands
 
 from .cog_utils.check import check_user
 from typing import List
-from ..objects import UsersCollection, GamesCollection, Game
+from ..objects import GamesCollection, Game
 from ..utils.emojis import EMOJI
 
 
@@ -14,8 +14,6 @@ class GameList(commands.Cog):
     @commands.command()
     async def gamelist(self, ctx):
         await check_user(ctx.author)
-
-        user_chess_profile = UsersCollection.get_user(str(ctx.author.id))
 
         games = GamesCollection.get_games_by_user_id(str(ctx.author.id))
         if len(games) == 0:

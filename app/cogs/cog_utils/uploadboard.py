@@ -26,8 +26,10 @@ async def upload_board(
 def _board_embed(
     client: nextcord.Client, game: Game, board: chess.Board
 ) -> nextcord.Embed:
+
     user_disc_one = client.get_user(int(game.user1_id.id))
     user_disc_two = client.get_user(int(game.user2_id.id))
+
     text_len = len(f"Game {game.id} \u200b")
     v = " " * (63 - text_len)
     example_move = random.choice([str(move) for move in board.legal_moves])

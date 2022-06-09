@@ -16,7 +16,6 @@ class DrawImage:
             self.result = Image.open(RESOURCES + "board.png").resize(
                 BOARD_SIZE
             )
-        # Board is black
         else:
             self.result = Image.open(RESOURCES + "boardb.png").resize(
                 BOARD_SIZE

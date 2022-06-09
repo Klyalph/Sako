@@ -1,13 +1,13 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction
-from nextcord.ui import Button
+import time
+
 
 from .cog_utils.check import check_user
 from typing import List
-from ..objects import UsersCollection, GamesCollection, Game, ConnectFour
+from ..objects import UsersCollection, ConnectFour
 from .cog_utils.parse import parse_user
-from ..utils.emojis import EMOJI
 
 
 class ConnectFourChoices(nextcord.ui.View):
@@ -60,11 +60,6 @@ class ConnectFourChoices(nextcord.ui.View):
             self.response = int(button.label)
             self.stop()
 
-class DeleteButton(nextcord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=45)
-        self.stop()
-        
 
     @nextcord.ui.button(label="delete", style=nextcord.ButtonStyle.primary)
     async def delete(self, button, interaction: Interaction):
@@ -100,7 +95,6 @@ class ConnectFourGame(commands.Cog):
         contender_game_profile.pending_command = message.id
         opponent_game_profile.pending_command = message.id
 
-
         # TODO: CEHCK if there is no availble moves
         while not game.check_if_won():
             user_id_turn = int(game.get_id_of_user_turn())
@@ -125,20 +119,18 @@ class ConnectFourGame(commands.Cog):
 
             try:
                 game.push_move(view.response - 1)
-            except AttributeError:
+            except ValueError:  # Column is full
                 continue
 
             if game.is_draw():
                 await ctx.send(self._create_draw_embed)
+                break
 
-        delete_button = DeleteButton()
         await message.edit(
             embed=self._results_embed(game, ctx.author, opponent_disc_profile),
-            view=delete_button
         )
-        await delete_button.wait()
+        time.sleep(2)
         try:
-
             await message.delete()
         except:
             pass
@@ -146,13 +138,11 @@ class ConnectFourGame(commands.Cog):
     @commands.command()
     async def cf(self, ctx, opponent):
         await self.connectfour(ctx, opponent)
-    
-    def _create_draw_embed(self) -> nextcord.Embed: 
+
+    def _create_draw_embed(self) -> nextcord.Embed:
         return nextcord.Embed(
-            title="Draw",
-            description="No one won this game."
+            title="Draw", description="No one won this game."
         )
-    
 
     def _create_board_embed(
         self,
@@ -179,16 +169,13 @@ class ConnectFourGame(commands.Cog):
             )
         )
 
-    def draw_embed(self, game: ConnectFour, user1_disc, user2_disc):
-        pass
 
-    def _results_embed(self, game: ConnectFour, user1_disc, user2_disc):
+    def _results_embed(self, game: ConnectFour, user1_disc, user2_disc) -> nextcord.Embed:
         winner_id = game.get_winner_id()
         winner_disc_profile = (
-            user1_disc
-            if user1_disc.id == int(winner_id)
-            else user2_disc
+            user1_disc if user1_disc.id == int(winner_id) else user2_disc
         )
+
         return nextcord.Embed(
             title=f"Game over: {user1_disc.name} vs {user2_disc.name}",
             description=game.as_string(),
